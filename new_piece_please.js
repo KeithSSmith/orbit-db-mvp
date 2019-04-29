@@ -26,6 +26,13 @@ class NewPiecePlease {
 
   async _init() {
     this.orbitdb = await this.OrbitDB.createInstance(this.node)
+    this.defaultOptions = { accessController: { write: [this.orbitdb.identity.publicKey] } }
+
+    const docStoreOptions = {
+      ...this.defaultOptions,
+      indexBy: 'hash',
+    }
+    this.pieces = await this.orbitdb.docstore('pieces', docStoreOptions)
   }
 }
 
